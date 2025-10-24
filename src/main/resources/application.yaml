@@ -1,0 +1,52 @@
+server:
+  port: 8088
+  servlet:
+    context-path: /workflow
+
+spring:
+  datasource:
+    url: jdbc:postgresql://ec2-54-207-83-72.sa-east-1.compute.amazonaws.com:5432/gedtotalapi?currentSchema=camunda,public
+    username: postgres
+    password: '%%%%%3Filhos32023'
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      poolName: Hikari
+      auto-commit: false
+      schema: camunda
+  jpa:
+    hibernate:
+      ddl-auto: none
+  kafka:
+ 
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:15.229.173.87:19092}
+    client-id: ged-camunda-service
+
+    consumer:
+      group-id: ged-camunda-service-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  main:
+    allow-bean-definition-overriding: true
+
+camunda:
+  bpm:
+    database:
+      type: postgres
+      schema-name: camunda          # schema onde ficarão as ACT_*
+      table-prefix: camunda.        # << OBRIGATÓRIO quando schema-name está setado
+      schema-update: true           # cria/ajusta as tabelas
+    history-level: full
+    generic-properties:
+      properties:
+        historyTimeToLive: P30D          # TTL padrão (dias) para processos sem valor explícito
+    admin-user:
+      id: admin
+      password: admin
+      firstName: Admin
+    filter:
+      create: All tasks
+
+workflow:
+  notifications:
+    task-created-topic: ${WORKFLOW_NOTIFICATIONS_TASK_CREATED_TOPIC:workflow-task-created}
