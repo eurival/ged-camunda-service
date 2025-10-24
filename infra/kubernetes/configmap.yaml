@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ged-camunda-service-config
+  namespace: gedtotal-apps
+data:
+  SERVER_PORT: "8088"
+  SERVER_SERVLET_CONTEXT_PATH: "/workflow"
+
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://ec2-54-207-83-72.sa-east-1.compute.amazonaws.com:5432/gedtotalapi?currentSchema=camunda,public"
+  SPRING_DATASOURCE_USERNAME: "postgres"
+  SPRING_DATASOURCE_DRIVER_CLASS_NAME: "org.postgresql.Driver"
+  SPRING_DATASOURCE_HIKARI_POOL_NAME: "Hikari"
+  SPRING_DATASOURCE_HIKARI_AUTO_COMMIT: "false"
+  SPRING_DATASOURCE_HIKARI_SCHEMA: "camunda"
+
+  SPRING_JPA_HIBERNATE_DDL_AUTO: "none"
+
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: "15.229.173.87:19092"
+  SPRING_KAFKA_CLIENT_ID: "ged-camunda-service"
+  SPRING_KAFKA_CONSUMER_GROUP_ID: "ged-camunda-service-group"
+  SPRING_KAFKA_CONSUMER_AUTO_OFFSET_RESET: "earliest"
+  SPRING_KAFKA_CONSUMER_KEY_DESERIALIZER: "org.apache.kafka.common.serialization.StringDeserializer"
+  SPRING_KAFKA_CONSUMER_VALUE_DESERIALIZER: "org.apache.kafka.common.serialization.StringDeserializer"
+
+  SPRING_MAIN_ALLOW_BEAN_DEFINITION_OVERRIDING: "true"
+
+  CAMUNDA_BPM_DATABASE_TYPE: "postgres"
+  CAMUNDA_BPM_DATABASE_SCHEMA_NAME: "camunda"
+  CAMUNDA_BPM_DATABASE_TABLE_PREFIX: "camunda."
+  CAMUNDA_BPM_DATABASE_SCHEMA_UPDATE: "true"
+  CAMUNDA_BPM_HISTORY_LEVEL: "full"
+  CAMUNDA_BPM_GENERIC_PROPERTIES_PROPERTIES_HISTORYTIMETOLIVE: "P30D"
+  CAMUNDA_BPM_ADMIN_USER_ID: "admin"
+  CAMUNDA_BPM_ADMIN_USER_FIRSTNAME: "Admin"
+  CAMUNDA_BPM_FILTER_CREATE: "All tasks"
+
+  WORKFLOW_NOTIFICATIONS_TASK_CREATED_TOPIC: "workflow-task-created"

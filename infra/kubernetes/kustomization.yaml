@@ -1,0 +1,10 @@
+resources:
+  - configmap.yaml
+  - deployment.yaml
+  - service.yaml
+  - hpa.yaml
+  - servicemonitor.yaml
+  - secret.yaml
+images:
+  - name: eurival/ged-camunda-service
+    newTag: latest

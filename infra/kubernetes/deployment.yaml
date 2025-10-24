@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ged-camunda-service-deployment
+  namespace: gedtotal-apps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ged-camunda-service
+  template:
+    metadata:
+      annotations:
+        redeploy-at: "2025-10-24T19:44:00Z"
+      labels:
+        app: ged-camunda-service
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - ged-camunda-service
+              topologyKey: "kubernetes.io/hostname"
+      volumes:
+      - name: log-volume
+        emptyDir: {}
+      containers:
+      - name: ged-camunda-service
+        image: eurival/ged-camunda-service:latest
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: log-volume
+          mountPath: /app/logs
+        ports:
+        - containerPort: 8088
+        envFrom:
+        - configMapRef:
+            name: ged-camunda-service-config
+        - secretRef:
+            name: ged-camunda-service-secret
+        env:
+        - name: _JAVA_OPTIONS
+          value: >-
+            -Duser.timezone=America/Sao_Paulo
+            -XX:InitialRAMPercentage=20.0
+            -XX:MaxRAMPercentage=75.0
+            -XX:+UseG1GC
+            -Xlog:gc*:file=/app/logs/gc.log:time,uptime,level:filecount=5,filesize=10M
+            -Dorg.apache.coyote.http11.Http11NioProtocol.maxThreads=200
+            -Dorg.apache.tomcat.util.net.NioSelectorShared=true
+        readinessProbe:
+          httpGet:
+            path: /workflow/actuator/health
+            port: 8088
+          initialDelaySeconds: 30
+          periodSeconds: 15
+          timeoutSeconds: 5
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /workflow/actuator/health
+            port: 8088
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 5
+          failureThreshold: 3
+        resources:
+          requests:
+            memory: "500Mi"
+            cpu: "500m"
+            ephemeral-storage: "1Gi"
+          limits:
+            memory: "1Gi"
+            cpu: "1"
+            ephemeral-storage: "1Gi"

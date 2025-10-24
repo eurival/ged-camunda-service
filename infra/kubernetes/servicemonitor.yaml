@@ -1,0 +1,21 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: ged-camunda-service-sm
+  namespace: gedtotal-apps
+  labels:
+    release: prometheus
+spec:
+  namespaceSelector:
+    matchNames:
+      - gedtotal-apps
+  selector:
+    matchLabels:
+      app: ged-camunda-service
+  endpoints:
+    - port: http
+      path: /workflow/actuator/prometheus
+      interval: 15s
+      relabelings:
+        - sourceLabels: [__meta_kubernetes_service_label_app]
+          targetLabel: application

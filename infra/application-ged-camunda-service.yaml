@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ged-camunda-service
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/eurival/ged-camunda-service.git' # Substitua pelo seu repo
+    targetRevision: main
+    path: infra/kubernetes # A pasta onde os manifestos acima estão
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: gedtotal-apps 
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

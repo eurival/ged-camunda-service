@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ged-camunda-service
+  namespace: gedtotal-apps
+  labels:
+    app: ged-camunda-service
+spec:
+  type: ClusterIP
+  selector:
+    app: ged-camunda-service
+  ports:
+    - name: http
+      port: 8088
+      targetPort: 8088

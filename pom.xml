@@ -5,7 +5,7 @@
 
   <groupId>br.com.interglobal.workflow</groupId>
   <artifactId>ged-camunda-service</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -113,6 +113,32 @@
 
   <build>
     <plugins>
+      <plugin>
+        <groupId>com.google.cloud.tools</groupId>
+        <artifactId>jib-maven-plugin</artifactId>
+        <version>3.4.3</version>
+        <configuration>
+          <from>
+            <image>eclipse-temurin:21-jre-alpine</image>
+          </from>
+          <to>
+            <image>docker.io/eurival/ged-camunda-service</image>
+            <tags>
+              <tag>${project.version}</tag>
+              <tag>latest</tag>
+            </tags>
+          </to>
+          <container>
+            <mainClass>br.com.interglobal.workflow.GedCamundaServiceApplication</mainClass>
+            <ports>
+              <port>8088</port>
+            </ports>
+            <environment>
+              <ENV>prod</ENV>
+            </environment>
+          </container>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
