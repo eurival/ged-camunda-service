@@ -1,11 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>br.com.interglobal.workflow</groupId>
   <artifactId>ged-camunda-service</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -14,7 +13,7 @@
   </properties>
 
   <dependencyManagement>
-    <dependencies>
+    <dependencies> 
       <!-- Spring Boot BOM -->
       <dependency>
         <groupId>org.springframework.boot</groupId>
@@ -45,11 +44,11 @@
       <groupId>org.camunda.bpm.springboot</groupId>
       <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
     </dependency>
-<dependency>
-  <groupId>com.h2database</groupId>
-  <artifactId>h2</artifactId>
-  <scope>test</scope>
-</dependency>
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>test</scope>
+    </dependency>
 
     <!-- Camunda Spin (JSON/XML) -->
     <dependency>
@@ -61,12 +60,7 @@
       <artifactId>camunda-spin-dataformat-all</artifactId>
     </dependency>
 
-    <!-- Spring Web -->
-<dependency>
-  <groupId>org.camunda.bpm.springboot</groupId>
-  <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
-</dependency>
-
+ 
     <!-- JDBC + PostgreSQL (APENAS um starter JDBC é suficiente) -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -96,7 +90,7 @@
       <artifactId>lombok</artifactId>
       <scope>provided</scope>
     </dependency>
- 
+
 
     <!-- Test -->
     <dependency>
@@ -129,7 +123,7 @@
             </tags>
           </to>
           <container>
-            <mainClass>br.com.interglobal.workflow.GedCamundaServiceApplication</mainClass>
+            <mainClass>br.com.interglobal.ged_camunda_service.GedCamundaServiceApplication</mainClass>
             <ports>
               <port>8088</port>
             </ports>
