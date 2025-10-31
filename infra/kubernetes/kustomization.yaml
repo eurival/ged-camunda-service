@@ -5,6 +5,7 @@ resources:
   - hpa.yaml
   - servicemonitor.yaml
   - secret.yaml
+  - ingress.yaml
 images:
   - name: eurival/ged-camunda-service
     newTag: latest
