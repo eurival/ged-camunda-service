@@ -1,0 +1,43 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: enginecamunda-ingress
+  namespace: gedtotal-apps
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # --- ADIÇÃO FINAL: CORRIGE O STATUS "PROGRESSING" ---
+    # Diz ao Argo CD para considerar o Ingress saudável se ele tiver um load balancer.
+    argocd.argoproj.io/health.lua: |
+      hs = {}
+      if obj.status ~= nil and obj.status.loadBalancer ~= nil and obj.status.loadBalancer.ingress ~= nil then
+        hs.status = "Healthy"
+        hs.message = "Ingress is healthy"
+        return hs
+      end
+      hs.status = "Progressing"
+      hs.message = "Waiting for Ingress"
+      return hs
+    nginx.ingress.kubernetes.io/proxy-body-size: "1024m"
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "ENGINECAMUDA_SESSION"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"   
+    nginx.ingress.kubernetes.io/proxy-buffering: "off"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - enginecamunda.arquivototal.com.br
+    secretName: enginecamunda-tls-secret
+  rules:
+  - host: enginecamunda.arquivototal.com.br
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: ged-camunda-service
+            port:
+              number: 8088
