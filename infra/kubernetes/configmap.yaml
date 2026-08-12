@@ -7,7 +7,7 @@ data:
   SERVER_PORT: "8088"
   SERVER_SERVLET_CONTEXT_PATH: "/workflow"
 
-  SPRING_DATASOURCE_URL: "jdbc:postgresql://ec2-54-207-83-72.sa-east-1.compute.amazonaws.com:5432/gedtotalapi?currentSchema=camunda,public"
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://postgis-svc.agrotech.svc.cluster.local:5432/gedtotalapi?currentSchema=camunda,public"
   SPRING_DATASOURCE_USERNAME: "postgres"
   SPRING_DATASOURCE_DRIVER_CLASS_NAME: "org.postgresql.Driver"
   SPRING_DATASOURCE_HIKARI_POOL_NAME: "Hikari"

@@ -5,7 +5,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://ec2-54-207-83-72.sa-east-1.compute.amazonaws.com:5432/gedtotalapi?currentSchema=camunda,public
+    url: jdbc:postgresql://postgis-svc.agrotech.svc.cluster.local:5432/gedtotalapi?currentSchema=camunda,public
     username: postgres
     password: '%%%%%3Filhos32023'
     driver-class-name: org.postgresql.Driver
